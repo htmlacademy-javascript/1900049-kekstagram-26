@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Анастасия Ермакова](https://up.htmlacademy.ru/javascript/26/user/1900049).
-* Наставник: `Неизвестно`.
+* Наставник: [Герман Топалов](https://htmlacademy.ru/profile/topalov).
 
 ---
 
