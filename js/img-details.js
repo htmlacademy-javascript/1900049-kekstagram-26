@@ -6,19 +6,19 @@ const kekDetailsModal = document.querySelector('.big-picture');
 const loadMoreCommentsBtn = document.querySelector('.comments-loader');
 const kekDetailsCloseElement = document.querySelector('.big-picture__cancel');
 
-export const openKekDetails = () => {
+const openKekDetails = () => {
   kekDetailsModal.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', escEventHandler);
 };
 
-export const closeKekDetails = () => {
+const closeKekDetails = () => {
   kekDetailsModal.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', escEventHandler);
 };
 
-export const drawComments = () => {
+const drawComments = () => {
   const comments = commentsList.slice(0, commentsCount);
   if (commentsCount === commentsList.length) {
     loadMoreCommentsBtn.classList.add('hidden');
@@ -48,7 +48,7 @@ export const drawComments = () => {
   commentsContainer.appendChild(commentsFragment);
 };
 
-export const loadMoreComments = () => {
+const loadMoreComments = () => {
   commentsCount =
     commentsCount + 5 <= commentsList.length
       ? commentsCount + 5
@@ -69,7 +69,7 @@ loadMoreCommentsBtn.addEventListener(
   loadMoreComments
 );
 
-export const drawKekDetails = ({ url, description, likes, comments }) => {
+const drawKekDetails = ({ url, description, likes, comments }) => {
   commentsCount = comments.length < 5 ? comments.length : 5;
   commentsList = comments;
 
@@ -94,3 +94,5 @@ function escEventHandler (event) {
     closeKekDetails();
   }
 }
+
+export { openKekDetails, closeKekDetails, drawComments, loadMoreComments, drawKekDetails };

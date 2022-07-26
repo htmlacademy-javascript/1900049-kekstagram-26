@@ -1,4 +1,4 @@
-export const filters = {
+const filters = {
   'filter-default': (keks) => keks,
   'filter-random': (keks) => {
     const shuffled = [...keks].sort(() => 0.5 - Math.random());
@@ -8,3 +8,5 @@ export const filters = {
   },
   'filter-discussed': (keks) => [...keks].sort((current, prev) => prev.comments.length - current.comments.length),
 };
+
+export {filters};

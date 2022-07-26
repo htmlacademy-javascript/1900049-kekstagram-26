@@ -1,11 +1,11 @@
 const bodyElement = document.querySelector('body');
 
-export const hideTemplate = (templateName) => {
+const hideTemplate = (templateName) => {
   const modalToHide = document.querySelector(`body > .${templateName}`);
   modalToHide.parentNode.removeChild(modalToHide);
 };
 
-export const showTemplate = (templateName, btnFunc, customMessage) => {
+const showTemplate = (templateName, btnFunc, customMessage) => {
   const uploadSuccessTooltipTemplate = document
     .querySelector(`#${templateName}`)
     .content.querySelector(`.${templateName}`);
@@ -35,12 +35,14 @@ export const showTemplate = (templateName, btnFunc, customMessage) => {
   bodyElement.appendChild(uploadSuccessTooltipFragment);
 };
 
-export const initCustomMessageTemplate = (templateMessage) => ({
+const initCustomMessageTemplate = (templateMessage) => ({
   open: () => showTemplate('success', undefined, templateMessage),
   close: () => hideTemplate('success'),
 });
 
-export const initTemplate = (templateName, btnFunc) => ({
+const initTemplate = (templateName, btnFunc) => ({
   open: () => showTemplate(templateName, btnFunc),
   close: () => hideTemplate(templateName),
 });
+
+export { hideTemplate, showTemplate, initCustomMessageTemplate, initTemplate };

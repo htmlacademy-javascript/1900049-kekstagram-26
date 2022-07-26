@@ -21,7 +21,7 @@ keksContainer.addEventListener(
   openKekEventHandler
 );
 
-export const drawKeksList = (keks) => {
+const drawKeksList = (keks) => {
   keksList = keks;
 
   keksContainer
@@ -53,3 +53,5 @@ export const drawKeksList = (keks) => {
 
   keksContainer.appendChild(similarListFragment);
 };
+
+export { drawKeksList };

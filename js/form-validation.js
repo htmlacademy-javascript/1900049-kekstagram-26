@@ -7,6 +7,9 @@ const errorTemplate = initTemplate('error', () =>
   document.querySelector('.img-upload__label').click()
 );
 
+const MAX_HASHTAG_LENGTH = 20;
+const MAX_HASHTAG_COUNT =5;
+
 let pristine;
 const hashtagValidator = function (value) {
   let areHashtagsCorrect = true;
@@ -17,7 +20,7 @@ const hashtagValidator = function (value) {
     if (hashtag[0] !== '#') {
       areHashtagsCorrect = false;
     }
-    if (hashtag.length > 20) {
+    if (hashtag.length > MAX_HASHTAG_LENGTH) {
       areHashtagsCorrect = false;
     }
     if (!/^[a-z0-9]*$/.test(hashtag.substring(1).toLowerCase())) {
@@ -25,7 +28,7 @@ const hashtagValidator = function (value) {
     }
   });
 
-  if (hashtagsList.length > 5) {
+  if (hashtagsList.length > MAX_HASHTAG_COUNT) {
     areHashtagsCorrect = false;
   }
 
@@ -36,7 +39,7 @@ const hashtagValidator = function (value) {
   return areHashtagsCorrect;
 };
 
-export const initPristine = () => {
+const initPristine = () => {
   const form = document.querySelector('.img-upload__form');
 
   Pristine.addValidator(
@@ -68,3 +71,5 @@ export const initPristine = () => {
     }
   });
 };
+
+export { initPristine };

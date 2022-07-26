@@ -3,9 +3,9 @@
 import { initPristine } from './form-validation.js';
 
 let zoom = 100;
-const zoomStep = 25;
-const minZoom = 25;
-const maxZoom = 100;
+const ZOOMSTEP = 25;
+const MINZOOM = 25;
+const MAXZOOM = 100;
 
 const effects = {
   chrome: {
@@ -49,9 +49,7 @@ const bodyElement = document.querySelector('body');
 const uploadImgModal = document.querySelector('.img-upload__overlay');
 const unloadImgModalCross = uploadImgModal.querySelector('.img-upload__cancel');
 const uploadFileInput = document.querySelector('.img-upload__input');
-const uploadPreviewImg = uploadImgModal.querySelector(
-  '.img-upload__preview img'
-);
+const uploadPreviewImg = uploadImgModal.querySelector('.img-upload__preview img');
 const minus = uploadImgModal.querySelector('.scale__control--smaller');
 const plus = uploadImgModal.querySelector('.scale__control--bigger');
 const zoomIndicator = uploadImgModal.querySelector('.scale__control--value');
@@ -64,7 +62,7 @@ const descriptionInput = uploadImgModal.querySelector('.text__description');
 
 // Work with open/close modal
 
-export const closeUploadImgModal = () => {
+const closeUploadImgModal = () => {
   uploadImgModal.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', escEventHandler);
@@ -76,7 +74,7 @@ const escStopPropagationEventHandler = (event) => {
   }
 };
 
-export const openUploadImgModal = () => {
+const openUploadImgModal = () => {
   const [file] = uploadFileInput.files;
   if (file) {
     uploadPreviewImg.src = URL.createObjectURL(file);
@@ -99,11 +97,11 @@ unloadImgModalCross.addEventListener(
 /* Event handlers */
 const zoomEventHandler = (event) => {
   if (event.target === plus) {
-    zoom = zoom + zoomStep > maxZoom ? maxZoom : zoom + zoomStep;
+    zoom = zoom + ZOOMSTEP > MAXZOOM ? MAXZOOM : zoom + ZOOMSTEP;
   }
 
   if (event.target === minus) {
-    zoom = zoom - zoomStep < minZoom ? minZoom : zoom - zoomStep;
+    zoom = zoom - ZOOMSTEP < MINZOOM ? MINZOOM : zoom - ZOOMSTEP;
   }
 
   uploadPreviewImg.style.transform = `scale(${zoom}%)`;
@@ -188,3 +186,5 @@ function escEventHandler (event) {
 
 initImgUpload();
 initPristine();
+
+export { closeUploadImgModal, openUploadImgModal };
