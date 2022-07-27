@@ -1,13 +1,13 @@
 import { getData } from './api.js';
-import { drawKeksList } from './img-list.js';
+import { drawPictureList } from './img-list.js';
 import { openUploadImgModal } from './img-upload.js';
 import { filters } from './filters.js';
 import { debounce } from './util.js';
 
-let someKeks = [];
+let somePicture = [];
 getData((posts) => {
-  someKeks = posts;
-  drawKeksList(posts);
+  somePicture = posts;
+  drawPictureList(posts);
   document.querySelector('.img-filters').classList.remove('hidden');
 });
 
@@ -19,12 +19,12 @@ const filterForm = document.querySelector('.img-filters__form');
 const filterButtons = filterForm.querySelectorAll('.img-filters__button');
 
 const filterBtnPressEventHandler = (event) => {
-  const filteredKeks = filters[event.target.id](someKeks);
+  const filteredPicture = filters[event.target.id](somePicture);
   filterButtons.forEach((i) =>
     i.classList.remove('img-filters__button--active')
   );
   event.target.classList.add('img-filters__button--active');
-  drawKeksList(filteredKeks);
+  drawPictureList(filteredPicture);
 };
 
 filterButtons.forEach((filterButton) => {

@@ -2,18 +2,20 @@ let commentsCount = 0;
 let commentsList = [];
 
 const body = document.querySelector('body');
-const kekDetailsModal = document.querySelector('.big-picture');
+const pictureDetailsModal = document.querySelector('.big-picture');
 const loadMoreCommentsBtn = document.querySelector('.comments-loader');
-const kekDetailsCloseElement = document.querySelector('.big-picture__cancel');
+const pictureDetailsCloseElement = document.querySelector(
+  '.big-picture__cancel'
+);
 
-const openKekDetails = () => {
-  kekDetailsModal.classList.remove('hidden');
+const openPictureDetails = () => {
+  pictureDetailsModal.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', escEventHandler);
 };
 
-const closeKekDetails = () => {
-  kekDetailsModal.classList.add('hidden');
+const closePictureDetails = () => {
+  pictureDetailsModal.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', escEventHandler);
 };
@@ -22,10 +24,11 @@ const drawComments = () => {
   const comments = commentsList.slice(0, commentsCount);
   if (commentsCount === commentsList.length) {
     loadMoreCommentsBtn.classList.add('hidden');
+  } else {
+    loadMoreCommentsBtn.classList.remove('hidden');
   }
-  else {loadMoreCommentsBtn.classList.remove('hidden');
-  }
-  const commentsContainer = kekDetailsModal.querySelector('.social__comments');
+  const commentsContainer =
+    pictureDetailsModal.querySelector('.social__comments');
   const commentTemplate = document
     .querySelector('#picture-comment')
     .content.querySelector('.social__comment');
@@ -55,30 +58,31 @@ const loadMoreComments = () => {
       : commentsList.length;
   drawComments();
 
-  const minCommentsCount = kekDetailsModal.querySelector('.min-comments-count');
+  const minCommentsCount = pictureDetailsModal.querySelector(
+    '.min-comments-count'
+  );
   minCommentsCount.textContent = commentsCount;
 };
 
-kekDetailsCloseElement.addEventListener(
-  'click',
-  closeKekDetails
-);
+pictureDetailsCloseElement.addEventListener('click', closePictureDetails);
 
-loadMoreCommentsBtn.addEventListener(
-  'click',
-  loadMoreComments
-);
+loadMoreCommentsBtn.addEventListener('click', loadMoreComments);
 
-const drawKekDetails = ({ url, description, likes, comments }) => {
+const drawPictureDetails = ({ url, description, likes, comments }) => {
   commentsCount = comments.length < 5 ? comments.length : 5;
   commentsList = comments;
 
-  const bigPictureImg = kekDetailsModal.querySelector('.big-picture__img img');
-  kekDetailsModal.querySelector('.social__picture');
-  const socialCaption = kekDetailsModal.querySelector('.social__caption');
-  const likesCount = kekDetailsModal.querySelector('.likes-count');
-  const minCommentsCount = kekDetailsModal.querySelector('.min-comments-count');
-  const commentsCountElement = kekDetailsModal.querySelector('.comments-count');
+  const bigPictureImg = pictureDetailsModal.querySelector(
+    '.big-picture__img img'
+  );
+  pictureDetailsModal.querySelector('.social__picture');
+  const socialCaption = pictureDetailsModal.querySelector('.social__caption');
+  const likesCount = pictureDetailsModal.querySelector('.likes-count');
+  const minCommentsCount = pictureDetailsModal.querySelector(
+    '.min-comments-count'
+  );
+  const commentsCountElement =
+    pictureDetailsModal.querySelector('.comments-count');
 
   bigPictureImg.src = url;
   socialCaption.textContent = description;
@@ -89,10 +93,16 @@ const drawKekDetails = ({ url, description, likes, comments }) => {
   drawComments(comments);
 };
 
-function escEventHandler (event) {
+function escEventHandler(event) {
   if (event.key === 'Escape') {
-    closeKekDetails();
+    closePictureDetails();
   }
 }
 
-export { openKekDetails, closeKekDetails, drawComments, loadMoreComments, drawKekDetails };
+export {
+  openPictureDetails,
+  closePictureDetails,
+  drawComments,
+  loadMoreComments,
+  drawPictureDetails,
+};

@@ -2,10 +2,11 @@
 
 import { initPristine } from './form-validation.js';
 
-let zoom = 100;
-const ZOOMSTEP = 25;
-const MINZOOM = 25;
-const MAXZOOM = 100;
+const DEFAULT_ZOOM = 100;
+let zoom = DEFAULT_ZOOM;
+const ZOOM_STEP = 25;
+const MIN_ZOOM = 25;
+const MAX_ZOOM = 100;
 
 const effects = {
   chrome: {
@@ -49,7 +50,9 @@ const bodyElement = document.querySelector('body');
 const uploadImgModal = document.querySelector('.img-upload__overlay');
 const unloadImgModalCross = uploadImgModal.querySelector('.img-upload__cancel');
 const uploadFileInput = document.querySelector('.img-upload__input');
-const uploadPreviewImg = uploadImgModal.querySelector('.img-upload__preview img');
+const uploadPreviewImg = uploadImgModal.querySelector(
+  '.img-upload__preview img'
+);
 const minus = uploadImgModal.querySelector('.scale__control--smaller');
 const plus = uploadImgModal.querySelector('.scale__control--bigger');
 const zoomIndicator = uploadImgModal.querySelector('.scale__control--value');
@@ -87,38 +90,38 @@ const openUploadImgModal = () => {
   initImgUpload();
 };
 
-unloadImgModalCross.addEventListener(
-  'click',
-  closeUploadImgModal
-);
+unloadImgModalCross.addEventListener('click', closeUploadImgModal);
 
 // Img settings
 
 /* Event handlers */
-const zoomEventHandler = (event) => {
-  if (event.target === plus) {
-    zoom = zoom + ZOOMSTEP > MAXZOOM ? MAXZOOM : zoom + ZOOMSTEP;
-  }
-
-  if (event.target === minus) {
-    zoom = zoom - ZOOMSTEP < MINZOOM ? MINZOOM : zoom - ZOOMSTEP;
-  }
-
+function setZoom(currentZoom) {
+  zoom = currentZoom;
   uploadPreviewImg.style.transform = `scale(${zoom}%)`;
   zoomIndicator.value = `${zoom}%`;
+}
+
+const zoomEventHandler = (event) => {
+  zoom = event.target === plus ? zoom + ZOOM_STEP : zoom - ZOOM_STEP;
+  zoom = zoom < MIN_ZOOM ? MIN_ZOOM : zoom;
+  zoom = zoom > MAX_ZOOM ? MAX_ZOOM : zoom;
+
+  setZoom(zoom);
 };
 
-const initSlider = ({ min, max, step, unit, effect }) => {
+const initSlider = (sliderSettings) => {
   if (sliderObject) {
     sliderObject.destroy();
   }
 
-  if (min === undefined || max === undefined || step === undefined) {
+  if (!sliderSettings) {
     sliderContainerElement.classList.add('hidden');
     sliderValueInput.value = 'none';
     uploadPreviewImg.style.filter = 'none';
     return;
   }
+
+  const { min, max, step, unit, effect } = sliderSettings;
 
   sliderContainerElement.classList.remove('hidden');
 
@@ -144,10 +147,7 @@ const initSlider = ({ min, max, step, unit, effect }) => {
 };
 
 /* Event Subscriptions */
-minus.addEventListener(
-  'click',
-  zoomEventHandler
-);
+minus.addEventListener('click', zoomEventHandler);
 plus.addEventListener('click', zoomEventHandler);
 
 radioInputs.forEach((radioInput) => {
@@ -158,27 +158,21 @@ radioInputs.forEach((radioInput) => {
     }
 
     const selectedEffect = effects[selectedRadioInput.value];
-    initSlider(selectedEffect || {});
+    initSlider(selectedEffect);
   });
 });
 
-hashtagInput.addEventListener(
-  'keydown',
-  escStopPropagationEventHandler
-);
+hashtagInput.addEventListener('keydown', escStopPropagationEventHandler);
 
-descriptionInput.addEventListener(
-  'keydown',
-  escStopPropagationEventHandler
-);
+descriptionInput.addEventListener('keydown', escStopPropagationEventHandler);
 
 /* Init phase */
-function initImgUpload () {
-  zoomEventHandler({});
-  initSlider({});
+function initImgUpload() {
+  setZoom(DEFAULT_ZOOM);
+  initSlider();
 }
 
-function escEventHandler (event) {
+function escEventHandler(event) {
   if (event.key === 'Escape') {
     closeUploadImgModal();
   }

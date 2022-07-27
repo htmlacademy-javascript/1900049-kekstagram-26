@@ -8,7 +8,7 @@ const errorTemplate = initTemplate('error', () =>
 );
 
 const MAX_HASHTAG_LENGTH = 20;
-const MAX_HASHTAG_COUNT =5;
+const MAX_HASHTAG_COUNT = 5;
 
 let pristine;
 const hashtagValidator = function (value) {

@@ -1,32 +1,32 @@
-import { drawKekDetails, openKekDetails } from './img-details.js';
+import { drawPictureDetails, openPictureDetails } from './img-details.js';
 
-let keksList = [];
+let pictureList = [];
 
-const keksContainer = document.querySelector('.pictures');
+const pictureContainer = document.querySelector('.pictures');
 
-const openKekEventHandler = (event) => {
+const openPictureEventHandler = (event) => {
   if (!event.target.classList.contains('picture__img')) {
     return;
   }
 
   const clickedId = event.path[1].id.split('picture-')[1];
-  const kekToDraw = keksList.find((i) => i.id.toString() === clickedId);
+  const pictureToDraw = pictureList.find((i) => i.id.toString() === clickedId);
 
-  drawKekDetails(kekToDraw);
-  openKekDetails();
+  drawPictureDetails(pictureToDraw);
+  openPictureDetails();
 };
 
-keksContainer.addEventListener(
+pictureContainer.addEventListener(
   'click',
-  openKekEventHandler
+  openPictureEventHandler
 );
 
-const drawKeksList = (keks) => {
-  keksList = keks;
+const drawPictureList = (picture) => {
+  pictureList = picture;
 
-  keksContainer
+  pictureContainer
     .querySelectorAll('.picture')
-    .forEach((picture) => picture.parentNode.removeChild(picture));
+    .forEach((currentPicture) => currentPicture.parentNode.removeChild(currentPicture));
 
   const picturesTemplate = document
     .querySelector('#picture')
@@ -34,7 +34,7 @@ const drawKeksList = (keks) => {
 
   const similarListFragment = document.createDocumentFragment();
 
-  keks.forEach(({ id, url, description, likes, comments }) => {
+  picture.forEach(({ id, url, description, likes, comments }) => {
     const pictureElement = picturesTemplate.cloneNode(true);
     const pictureImg = pictureElement.querySelector('.picture__img');
     const pictureComments = pictureElement.querySelector('.picture__comments');
@@ -51,7 +51,7 @@ const drawKeksList = (keks) => {
     similarListFragment.appendChild(pictureElement);
   });
 
-  keksContainer.appendChild(similarListFragment);
+  pictureContainer.appendChild(similarListFragment);
 };
 
-export { drawKeksList };
+export { drawPictureList };
